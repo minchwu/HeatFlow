@@ -1,0 +1,33 @@
+name: HeatFlow CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Validate Python source
+        run: python -B -c "import ast,pathlib; [ast.parse(p.read_text(encoding='utf-8'), filename=str(p)) for p in pathlib.Path('heatflow').rglob('*.py')]; print('python-source-ok')"
+      - name: Verify web routes
+        env:
+          HEATFLOW_DATA_DIR: ${{ runner.temp }}/heatflow-data
+        run: |
+          python - <<'PY'
+          from heatflow.web.routes import create_app
+          app = create_app()
+          client = app.test_client()
+          for path in ('/', '/tower', '/limit-review', '/history', '/api/health'):
+              response = client.get(path)
+              assert response.status_code == 200, f'{path}: {response.status_code}'
+          print('web-routes-ok')
+          PY
