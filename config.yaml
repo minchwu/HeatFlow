@@ -1,0 +1,48 @@
+app:
+  name: HeatFlow
+  host: 127.0.0.1
+  port: 5000
+  timezone: Asia/Shanghai
+collector:
+  mode: live
+  primary_source: eastmoney
+  interval_minutes: 3
+  interval_seconds: 10
+  closed_refresh_seconds: 30
+  sources: [ths, eastmoney, taoguba, cls, sina, wallstreetcn]
+  timeout_seconds: 12
+  fallback_to_mock: true
+  history_days: 7
+  dynamic_history_top_n: 20
+  auto_collect_on_start: true
+  eastmoney:
+    enabled: true
+    page_size: 30
+  ths:
+    enabled: true
+    url: "https://q.10jqka.com.cn/"
+  taoguba:
+    enabled: true
+    url: "https://www.taoguba.com.cn/newIndex"
+  cls:
+    enabled: true
+    url: "https://www.cls.cn/telegraph"
+  sina:
+    enabled: true
+    url: "https://finance.sina.com.cn/"
+  wallstreetcn:
+    enabled: true
+    url: "https://wallstreetcn.com/news/global"
+  watchlist:
+    - {code: "300308", name: "中际旭创", board: "AI算力"}
+    - {code: "688256", name: "寒武纪", board: "AI算力"}
+    - {code: "601138", name: "工业富联", board: "AI算力"}
+    - {code: "300502", name: "新易盛", board: "光模块"}
+    - {code: "002230", name: "科大讯飞", board: "人工智能"}
+    - {code: "601360", name: "三六零", board: "软件"}
+    - {code: "000977", name: "浪潮信息", board: "服务器"}
+    - {code: "300750", name: "宁德时代", board: "新能源"}
+    - {code: "002594", name: "比亚迪", board: "汽车"}
+    - {code: "688012", name: "中微公司", board: "半导体"}
+    - {code: "603019", name: "中科曙光", board: "算力"}
+    - {code: "601127", name: "赛力斯", board: "汽车"}

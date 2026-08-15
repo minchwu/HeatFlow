@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: heatflow
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --workers 1 --threads 4 --bind 0.0.0.0:$PORT --factory heatflow.web.routes:create_app
+    healthCheckPath: /api/health
+    envVars:
+      - key: HEATFLOW_DATA_DIR
+        value: /var/data
+      - key: PYTHON_VERSION
+        value: 3.10.14
+    disk:
+      name: heatflow-data
+      mountPath: /var/data
+      sizeGB: 1

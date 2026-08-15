@@ -1,0 +1,20 @@
+# Python build and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local runtime state: SQLite database, collector heartbeat, reports and logs
+.heatflow-live/
+
+# Local deployment configuration and credentials
+.env
+.env.*
+!.env.example
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

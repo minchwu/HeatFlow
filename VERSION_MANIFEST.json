@@ -1,0 +1,21 @@
+{
+  "name": "HeatFlow",
+  "version": "1.4.0",
+  "release_date": "2026-08-15",
+  "self_contained": true,
+  "runtime_data": ".heatflow-live",
+  "visual_assets": ".heatflow-assets",
+  "logo": ".heatflow-assets/youtianxia-logo.png",
+  "database": ".heatflow-live/heat.db",
+  "reports": [
+    ".heatflow-live/reports",
+    ".heatflow-live/heat.db"
+  ],
+  "media_export": "disabled (涨停分布仅保留网页内 1 分钟回放)",
+  "startup": "manual",
+  "color_identity": {
+    "stock_seed": "stock:<code>",
+    "board_seed": "board:<board_name>",
+    "algorithm": "FNV-1a Unicode codepoint hash mapped to HSL hue"
+  }
+}
