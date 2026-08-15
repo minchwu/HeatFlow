@@ -180,7 +180,7 @@ def create_app():
         stage = detect(rows); report = get_report(series_date); timeline = market_timeline(series_date)
         theme = main_theme(rows); insight = build_market_insight(rows, topics); important_events = important_event_nodes()
         rendered_copy = media_copy(rows, theme, stage, effect or {}, topics, insight)
-        return render_template("index.html", records=rows, theme=theme, sentiment=stage, stage_tone=stage_tone(stage), metrics=metrics(rows), leaders=leader_tiers(rows), mode=mode_info(rows), data_timestamp=rows[0]["timestamp"] if rows else None, market_date=series_date, profiles=profiles, topics=topics[:8], important_events=important_events, effect=effect, report=report, rendered_copy=rendered_copy, timeline=timeline)
+        return render_template("index.html", records=rows, theme=theme, sentiment=stage, stage_tone=stage_tone(stage), metrics=metrics(rows), leaders=leader_tiers(rows), mode=mode_info(rows), data_timestamp=rows[0]["timestamp"] if rows else None, market_date=series_date, profiles=profiles, topics=topics[:8], important_events=important_events, effect=effect, report=report, rendered_copy=rendered_copy, timeline=timeline, version=APP_VERSION)
     @app.get("/api/latest")
     def api_latest():
         rows = latest_records(20); topics = latest_news(30)
@@ -284,5 +284,8 @@ def create_app():
     @app.get("/api/history/dates")
     def history_dates():
         return jsonify({"dates": available_history_dates(30), "overview": history_overview(7)})
-    start_background_refresh()
+    # Static-site export and CI render routes from the same templates, but
+    # must not spawn a second collector while generating a frozen snapshot.
+    if os.environ.get("HEATFLOW_DISABLE_BACKGROUND") != "1":
+        start_background_refresh()
     return app

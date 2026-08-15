@@ -1,6 +1,6 @@
 {
   "name": "HeatFlow",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "release_date": "2026-08-15",
   "self_contained": true,
   "runtime_data": ".heatflow-live",
@@ -12,6 +12,7 @@
     ".heatflow-live/heat.db"
   ],
   "media_export": "disabled (涨停分布仅保留网页内 1 分钟回放)",
+  "static_publish": "GitHub Pages: site/ holds a frozen close snapshot; .heatflow-live is never published",
   "startup": "manual",
   "color_identity": {
     "stock_seed": "stock:<code>",

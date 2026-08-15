@@ -1,4 +1,4 @@
-# HEATFLOW v1.4.0
+# HEATFLOW v1.5.0
 
 HeatFlow 已转为 Git 主线管理。本目录是唯一的应用源码根目录；历史 `releases/` 文件夹仅作为本地归档，不再承担后续版本开发。
 
@@ -11,6 +11,8 @@ HeatFlow 已转为 Git 主线管理。本目录是唯一的应用源码根目录
 新增“涨停复盘”页面：访问 `/limit-review`。页面以涨停原因与炒作概念为核心，将涨停事件归入人工智能与算力、半导体与电子、高端制造与机器人、汽车产业链、医药健康、基建地产、化工材料、消费与食品等概念组；概念组按最高连板、涨停数量和最早封板时间排序，组内个股按连板高度和涨停时间排序，炸板票保留在对应概念中并使用暗色虚线边框。涨停原因同时保留原行情动作字段与板块逻辑归纳，避免把推断内容伪装成公告级原因。
 
 v1.4 增加涨停原因多源证据层。东方财富涨停池提供封板时间、连板高度、板块与状态；同交易日内已采集的淘股吧、财联社、新浪财经、华尔街见闻等公开资讯会按个股代码、个股名、板块和概念关键词匹配，并保留来源、标题、置信度与更新时间。页面明确标记“多源佐证”“公开线索”“板块推断”；跨交易日资讯不会参与归因，避免把旧新闻误写成当天催化。
+
+v1.5 新增 GitHub Pages 收盘静态发布：本机在收盘后将已验证的真实行情导出为 `site/`，公开站点只包含 HTML、JSON 快照和品牌资产，不上传 `.heatflow-live/heat.db`、日志或实时采集接口。公开页面会明确标记为冻结复盘；本机 Flask 服务继续提供盘中 10 秒实时采集。
 
 手动启动网页服务：
 
@@ -26,3 +28,22 @@ D:\Python310\python.exe -m heatflow.app
 - Git 只提交源码、配置模板、说明和品牌资产；`.heatflow-live/` 保存本机 SQLite 市场数据、采集心跳、日志与报告，已被忽略，不会进入仓库。
 - 已提供 `render.yaml` 和 `Procfile`，可作为动态网页部署到 Render。GitHub Pages 不支持本项目的 Flask 后台、定时采集与 SQLite，因此不适用。
 - Render 部署时会把运行数据挂载到 `/var/data`；需要在 Render 控制台确认已启用持久磁盘。首次上线后会自动初始化数据库并在交易日采集公开行情数据。
+
+## GitHub Pages 收盘发布
+
+无需 Render。每个交易日收盘后运行：
+
+```powershell
+cd E:\Codex\WeMedia\heatflow
+.\scripts\publish_close_snapshot.ps1
+```
+
+脚本会采集收盘数据、拒绝发布模拟行情、导出静态站点、提交 `site/` 并推送 `main`。首次需要在 GitHub 仓库 **Settings → Pages** 中将 Source 设为 **GitHub Actions**；工作流完成后访问 `https://minchwu.github.io/HeatFlow/`。
+
+如需自动化，可在 Windows“任务计划程序”创建工作日 15:10 任务，程序设为 `powershell.exe`，参数为：
+
+```text
+-ExecutionPolicy Bypass -File E:\Codex\WeMedia\heatflow\scripts\publish_close_snapshot.ps1
+```
+
+该任务只应安排在交易日执行；法定休市日脚本会因缺少当天完整行情而停止发布。

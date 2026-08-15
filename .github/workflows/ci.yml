@@ -21,6 +21,7 @@ jobs:
       - name: Verify web routes
         env:
           HEATFLOW_DATA_DIR: ${{ runner.temp }}/heatflow-data
+          HEATFLOW_DISABLE_BACKGROUND: '1'
         run: |
           python - <<'PY'
           from heatflow.web.routes import create_app
