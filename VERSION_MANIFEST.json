@@ -1,6 +1,6 @@
 {
   "name": "HeatFlow",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "release_date": "2026-08-15",
   "self_contained": true,
   "runtime_data": ".heatflow-live",

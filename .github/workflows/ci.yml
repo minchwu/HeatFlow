@@ -30,5 +30,7 @@ jobs:
           for path in ('/', '/tower', '/limit-review', '/history', '/api/health'):
               response = client.get(path)
               assert response.status_code == 200, f'{path}: {response.status_code}'
+              if path in ('/', '/tower', '/limit-review', '/history'):
+                  assert b'mobile-nav' in response.data, f'{path}: mobile navigation missing'
           print('web-routes-ok')
           PY

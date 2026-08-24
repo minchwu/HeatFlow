@@ -3,7 +3,7 @@ import os
 import yaml
 
 ROOT = Path(__file__).resolve().parent
-APP_VERSION = "1.5.0"
+APP_VERSION = "1.6.0"
 # v1.0 is self-contained: runtime data and visual assets live beside the
 # release package, while environment variables remain available for external
 # deployments or shared storage.

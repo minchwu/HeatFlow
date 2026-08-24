@@ -276,7 +276,7 @@ def create_app():
     def history_page():
         dates = available_history_dates(30); real_dates = [item for item in dates if item.get("is_real")]
         default_date = (real_dates or dates or [{"date": datetime.now().strftime("%Y-%m-%d")}])[0]["date"]
-        return render_template("history.html", today=default_date, dates=dates, overview=history_overview(7))
+        return render_template("history.html", today=default_date, dates=dates, overview=history_overview(7), version=APP_VERSION)
     @app.get("/history/<date_text>")
     def history(date_text):
         rows = records_for_date(date_text)
