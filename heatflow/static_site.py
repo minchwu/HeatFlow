@@ -10,7 +10,6 @@ import json
 import os
 import re
 import shutil
-from datetime import datetime
 from pathlib import Path
 
 from .config import APP_VERSION, RELEASE_DIR, STATIC_DIR
@@ -181,7 +180,7 @@ def export_static_site(date_text: str | None = None, output: Path | None = None,
         manifest = {
             "version": APP_VERSION,
             "market_date": date_text,
-            "generated_at": datetime.now().isoformat(timespec="seconds"),
+            "generated_at": max(row["timestamp"] for row in records_for_date(date_text)),
             "mode": "收盘静态复盘",
             "notice": "公开站点不包含本地 SQLite、日志或实时采集接口。",
         }
